@@ -4,6 +4,8 @@ var rowIndex = 0;
 var answerWord = ""
 
 function init() {
+    answerWord = getAnswerWord();
+
     generateGrid();
 
     inputGrid[0][0].focus();
@@ -20,7 +22,7 @@ function init() {
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && inputGrid[curRow][4].value) {
             curUserWord = getInputWord();
-            
+            validateRow(curUserWord);
             curRow++;
             rowIndex = 0;
             if (curRow < 6) { 
@@ -84,5 +86,23 @@ function handleBackspace() {
     }
 }
 
-// Initialize the grid
+function getAnswerWord(){
+    return "apple".toUpperCase();
+}
+
+function validateRow(userWord){
+    inputs = inputGrid[curRow]
+    for( var i = 0 ; i < 5 ; i++){
+        if (userWord[i] == answerWord[i]){
+            inputs[i].classList.add("correct")
+        }
+        else if(answerWord.includes(userWord[i])){
+            inputs[i].classList.add("wrong")
+        }
+        else{
+            inputs[i].classList.add("incorrect")
+        }
+    }
+}
+
 init();
