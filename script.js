@@ -3,8 +3,12 @@ var curRow = 0;
 
 function init(){
     generateGrid();
-    inputValidation();
-    document.querySelector("#input-container").addEventListener('input', inputValidation);
+
+    document.querySelector("#input-container").addEventListener('input', (event) =>{
+        console.log(event.target);
+        inputValidation(event.target);
+    });
+    
     document.addEventListener('keydown', (e) =>{
         if (e.key === 'Enter' && inputGrid[curRow][4].value){
             curUserWord = getInputWord();
@@ -28,18 +32,14 @@ function generateGrid() {
     }
 }
 
-function inputValidation(){
+function inputValidation(input){
     const regex = /^[a-zA-Z]$/;
-    inputGrid.forEach(row =>{
-        row.forEach(input => {
-            if (regex.test(input.value)){
-                input.value = input.value.toUpperCase();
-            }
-            else{
-                input.value = "";
-            }
-        });
-    });
+    if (regex.test(input.value)){
+        input.value = input.value.toUpperCase();
+    }
+    else{
+        input.value = "";
+    }
 }
 
 function getInputWord(){
