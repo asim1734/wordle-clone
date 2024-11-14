@@ -3,13 +3,35 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Press Start 2P', cursive;
+    color: #FFFFFF
+}
+
+h1{
+    font-size: 3.5rem;
+    margin-bottom: 10px;
 }
 
 body{
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     position: relative;
+    padding-top: 5%;
+    background-color: #121213;
+
+}
+
+input.correct{
+    background-color: #6AAA64;
+}
+
+input.incorrect{
+    background-color: #3A3A3C;
+}
+
+input.wrong{
+    background-color: #C9B458;
 }
 
 input{
@@ -19,6 +41,10 @@ input{
     display: flex;
     justify-content: center;
     align-items: center;
+    color: #FFFFFF;
+    background-color: #121213;
+    box-shadow: 0;
+    border: 2px solid #3A3A3C;
 }
 
 #input-container > input{
@@ -32,7 +58,8 @@ input{
     display: grid;
     grid-template-rows: repeat(6, 1fr);
     grid-template-columns: repeat(5, 1fr);
-    gap: 5px;
+    gap: 8px;
+    row-gap: 13px;
 
     width: 50vh;
     height: 60vh;
