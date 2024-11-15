@@ -4,7 +4,7 @@ const inputGrid = [];
 var curRow = 0;
 var rowIndex = 0;
 var answerWord = "";
-var GameWon = false;
+var gameRunning = true;
 
 function init() {
     console.log("init() called");
@@ -29,16 +29,31 @@ function init() {
             console.log("Enter key pressed");
             let curUserWord = getInputWord();
             console.log("Current user word:", curUserWord);
-            var correctCount = validateRow(curUserWord);
-            if (correctCount == 5){
-                console.log("game won");
-                inputGrid[curRow][rowIndex].blur();
-                GameWon = true;
+            if (isValidWord(curUserWord)){
+                var correctCount = validateRow(curUserWord);
+                if (correctCount == 5){
+                    console.log("game won");
+                    showToast("You won the game!", 'won');
+                    inputGrid[curRow][rowIndex].blur();
+                    gameRunning = false;
+                }
+                curRow++;
+                rowIndex = 0;
+                if (curRow < 6) { 
+                    inputGrid[curRow][0].focus();
+                }
+                else{
+                    gameRunning = false;
+                    console.log("Game over");
+                    showToast("Game Over! Better luck next time!", 'lost'); 
+                }
+                if(!gameRunning){
+                    inputGrid[curRow][0].blur();
+                }
             }
-            curRow++;
-            rowIndex = 0;
-            if (curRow < 6 && !GameWon) { 
-                inputGrid[curRow][0].focus();
+            else{
+                showToast("Invalid word entered!", 'invalid');
+                console.log("Invalid word entered");
             }
         } else if (e.key === 'Backspace') {
             console.log("Backspace key pressed");
@@ -114,6 +129,7 @@ function getAnswerWord() {
 }
 
 function validateRow(userWord) {
+    console.log("validateRow called");
     const inputs = inputGrid[curRow];
     let correctCount = 0;
     let tempAnswer = [...answerWord];
@@ -137,11 +153,29 @@ function validateRow(userWord) {
     return correctCount;
 }
 
+function isValidWord(word){
+    return allWords.has(word.toLowerCase());
+}
+
 function randomNum() {
     console.log("randomNum() called");
     const num = Math.floor(Math.random() * validWords.length); 
     console.log("Generated random number:", num);
     return num;
 }
+
+function showToast(message, type = 'success') {
+    const toast = document.createElement('div');
+    toast.classList.add('toast', type);
+    toast.textContent = message;
+
+    const toastContainer = document.querySelector('#toast-container');
+    toastContainer.appendChild(toast);
+
+    setTimeout(() => {
+        toastContainer.removeChild(toast);
+    }, 3000);
+}
+
 
 init();

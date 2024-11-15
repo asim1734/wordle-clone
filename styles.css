@@ -64,3 +64,51 @@ input{
     width: 50vh;
     height: 60vh;
 }
+
+#toast-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+}
+
+.toast {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    font-size: 14px;
+    opacity: 0;
+    animation: fadeInOut 3s forwards;
+}
+
+.toast.invalid{
+    background-color: #f44336;
+}
+
+.toast.won {
+    top: 50%;
+    background-color: #4CAF50;
+    font-size: 28px;
+}
+
+.toast.lost {
+    background-color: #f44336;
+}
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
