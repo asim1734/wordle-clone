@@ -3,7 +3,8 @@ import { validWords, allWords } from './validWords.js';
 const inputGrid = [];
 var curRow = 0;
 var rowIndex = 0;
-var answerWord = ""
+var answerWord = "";
+var GameWon = false;
 
 function init() {
     console.log("init() called");
@@ -28,10 +29,15 @@ function init() {
             console.log("Enter key pressed");
             let curUserWord = getInputWord();
             console.log("Current user word:", curUserWord);
-            validateRow(curUserWord);
+            var correctCount = validateRow(curUserWord);
+            if (correctCount == 5){
+                console.log("game won");
+                inputGrid[curRow][rowIndex].blur();
+                GameWon = true;
+            }
             curRow++;
             rowIndex = 0;
-            if (curRow < 6) { 
+            if (curRow < 6 && !GameWon) { 
                 inputGrid[curRow][0].focus();
             }
         } else if (e.key === 'Backspace') {
@@ -108,20 +114,27 @@ function getAnswerWord() {
 }
 
 function validateRow(userWord) {
-    console.log("validateRow() called with userWord:", userWord);
     const inputs = inputGrid[curRow];
-    for (var i = 0; i < 5; i++) {
-        if (userWord[i] === answerWord[i]) {
-            inputs[i].classList.add("correct");
-            console.log(`Letter ${userWord[i]} is correct at position ${i}`);
-        } else if (answerWord.includes(userWord[i])) {
-            inputs[i].classList.add("wrong");
-            console.log(`Letter ${userWord[i]} is in the word but at a different position`);
-        } else {
-            inputs[i].classList.add("incorrect");
-            console.log(`Letter ${userWord[i]} is not in the word`);
+    let correctCount = 0;
+    let tempAnswer = [...answerWord];
+    
+    userWord.split('').forEach((letter, i) => {
+        if (letter === answerWord[i]) {
+            inputs[i].classList.add('correct');
+            tempAnswer[i] = '#';  
+            correctCount++;
         }
-    }
+    });
+    
+    userWord.split('').forEach((letter, i) => {
+        if (letter !== answerWord[i]) {
+            const inWord = tempAnswer.indexOf(letter);
+            inputs[i].classList.add(inWord !== -1 ? 'wrong' : 'incorrect');
+            if (inWord !== -1) tempAnswer[inWord] = '#';
+        }
+    });
+
+    return correctCount;
 }
 
 function randomNum() {
