@@ -45,7 +45,7 @@ function init() {
                 else{
                     gameRunning = false;
                     console.log("Game over");
-                    showToast("Game Over! Better luck next time!", 'lost'); 
+                    showToast("Game Over! The word was ", 'lost'); 
                 }
                 if(!gameRunning){
                     inputGrid[curRow][0].blur();
@@ -164,9 +164,12 @@ function randomNum() {
     return num;
 }
 
-function showToast(message, type = 'success') {
+function showToast(message, type) {
     const toast = document.createElement('div');
     toast.classList.add('toast', type);
+    if (type = 'lost'){
+        message = message + answerWord + ".";
+    }
     toast.textContent = message;
 
     const toastContainer = document.querySelector('#toast-container');

@@ -155,3 +155,11 @@ input{
 .how-to div.incorrect{
     background-color: #C9B458;
 }
+
+@media only screen and (max-width: 480px){
+    .how-to{
+        position: static;
+        margin: 20px;
+        width: 300px;
+    }
+}
